@@ -10,15 +10,15 @@ import { Habit, HabitRecord, StorageData } from '@/types/habit';
 declare global {
   interface Window {
     electronAPI?: {
-      getStore: () => StorageData;
-      setStore: (data: StorageData) => void;
-      getHabits: () => Habit[];
-      addHabit: (habit: Habit) => void;
-      updateHabit: (habit: Habit) => void;
-      deleteHabit: (id: string) => void;
-      getRecords: () => HabitRecord[];
-      addRecord: (record: HabitRecord) => void;
-      deleteRecordsByHabitId: (habitId: string) => void;
+      getStore: () => Promise<StorageData>;
+      setStore: (data: StorageData) => Promise<StorageData>;
+      getHabits: () => Promise<Habit[]>;
+      addHabit: (habit: Habit) => Promise<Habit[]>;
+      updateHabit: (habit: Habit) => Promise<Habit[]>;
+      deleteHabit: (id: string) => Promise<Habit[]>;
+      getRecords: () => Promise<HabitRecord[]>;
+      addRecord: (record: HabitRecord) => Promise<HabitRecord[]>;
+      deleteRecordsByHabitId: (habitId: string) => Promise<HabitRecord[]>;
     };
   }
 }

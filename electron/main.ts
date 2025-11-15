@@ -2,7 +2,27 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import Store from 'electron-store';
-import { Habit, HabitRecord, StorageData } from '../src/types/habit';
+
+// 型定義を直接定義（Electronメインプロセスでは型のみ使用）
+interface Habit {
+  id: string;
+  name: string;
+  description?: string;
+  color?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface HabitRecord {
+  habitId: string;
+  date: string;
+  completed: boolean;
+}
+
+interface StorageData {
+  habits: Habit[];
+  records: HabitRecord[];
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

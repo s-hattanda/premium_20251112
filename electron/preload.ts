@@ -1,9 +1,29 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import { Habit, HabitRecord, StorageData } from '../src/types/habit';
+
+// 型定義を直接定義（プリロードスクリプトでは型のみ使用）
+interface Habit {
+  id: string;
+  name: string;
+  description?: string;
+  color?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface HabitRecord {
+  habitId: string;
+  date: string;
+  completed: boolean;
+}
+
+interface StorageData {
+  habits: Habit[];
+  records: HabitRecord[];
+}
 
 // セキュアなコンテキストブリッジを使用してAPIを公開
 contextBridge.exposeInMainWorld('electronAPI', {
-  getStore: (): StorageData => ipcRenderer.invoke('store:get'),
+  getStore: (): Promise<StorageData> => ipcRenderer.invoke('store:get'),
   setStore: (data: StorageData): Promise<StorageData> => ipcRenderer.invoke('store:set', data),
   getHabits: (): Promise<Habit[]> => ipcRenderer.invoke('habits:get'),
   addHabit: (habit: Habit): Promise<Habit[]> => ipcRenderer.invoke('habits:add', habit),
